@@ -13,25 +13,15 @@ class Course:
         self.program = program
         self.code = code
 
-class Term:
-    name = ''
-    courses = []
-
-    def __init__(self, name):
-        self.name = name
-
-    def add_course(self, course):
-        self.courses.append(course)
-
 terms = {
-    '1A' : Term('1A'),
-    '1B' : Term('1B'),
-    '2A' : Term('2A'),
-    '2B' : Term('2B'),
-    '3A' : Term('3A'),
-    '3B' : Term('3B'),
-    '4A' : Term('4A'),
-    '4B' : Term('4B')
+    '1A' : [],
+    '1B' : [],
+    '2A' : [],
+    '2B' : [],
+    '3A' : [],
+    '3B' : [],
+    '4A' : [],
+    '4B' : []
 }
 
 req = requests.get(url)
@@ -58,12 +48,5 @@ for [i, row] in enumerate(rows):
             code = cols[1].text.strip()
             program = cols[0].text.strip()
 
-        print academic_term
         course = Course(course_name, code, program)
-        terms[academic_term].add_course(course)
-
-#for term in terms.values():
-    #print term.name
-
-    #for course in term.courses:
-        #print course.code, course.name
+        terms[academic_term].append(course)

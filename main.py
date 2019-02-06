@@ -1,7 +1,8 @@
 from bs4 import BeautifulSoup
 import requests
 
-calendar_url = "https://ugradcalendar.uwaterloo.ca/page/ENG-Computer-Engineering-Electrical-Engineering"
+calendar_url = "https://ugradcalendar.uwaterloo.ca/"
+ece_page = "page/ENG-Computer-Engineering-Electrical-Engineering"
 
 terms = {
     '1A' : [],
@@ -18,6 +19,7 @@ class Course:
     name = ''
     code = ''
     program = ''
+    url = ''
 
     def __init__(self, name, code,  program):
         self.name = name
@@ -60,22 +62,36 @@ def get_courses_from_list(rows):
                 course = Course(course_name, code, program)
                 terms[academic_term].append(course)
 
+def add_course_urls(year):
+    course_list_url = "http://www.ucalendar.uwaterloo.ca/" + (year[2:5] + str((int(year[2:5]) + 1))) + "/COURSE/course-ECE.html"
+
+    for term in terms.values():
+        for course in term:
+            course.url = course_list_url + "#" + course.code.replace(' ', '')
+
 def get_courses(year):
-    url = calendar_url + "/?ActiveDate=9/1/" + year
+    url = calendar_url + ece_page + "/?ActiveDate=9/1/" + year
     
     content = get_site_content(url)
     rows = get_course_list(content)
     get_courses_from_list(rows)
 
+    add_course_urls(year)
+
+    return url
+
 def main():
     year = raw_input("Please select your starting year: ")
 
-    get_courses(year)
+    url = get_courses(year)
+
+    print "Showing ECE calendar from", year
+    print url, "\n"
 
     term = raw_input("Please select a term: ")
 
     for course in terms[term]:
-        print course.code
+        print course.code, course.url
 
 if __name__ == '__main__':
     main()

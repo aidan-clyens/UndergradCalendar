@@ -1,7 +1,7 @@
 from bs4 import BeautifulSoup
 import requests
 
-url = "https://ugradcalendar.uwaterloo.ca/page/ENG-Computer-Engineering-Electrical-Engineering/?ActiveDate=9/1/2016"
+calendar_url = "https://ugradcalendar.uwaterloo.ca/page/ENG-Computer-Engineering-Electrical-Engineering"
 
 terms = {
     '1A' : [],
@@ -24,22 +24,24 @@ class Course:
         self.program = program
         self.code = code
 
-
-def get_course_table():
+def get_site_content(url):
     req = requests.get(url)
     text = req.text.encode('utf-8')
 
     soup = BeautifulSoup(text, 'html.parser')
 
     main_content = soup.find('span', {'class':'MainContent'})
+
+    return main_content
+
+def get_course_list(main_content):
     table = main_content.find('table')
-
-    return table
-
-def get_courses_from_table(table):
 
     rows = table.find_all('tr')
 
+    return rows
+
+def get_courses_from_list(rows):
     for [i, row] in enumerate(rows):
         cols = row.find_all('td')
 
@@ -53,13 +55,22 @@ def get_courses_from_table(table):
                 course_name = cols[2].text.strip()
                 code = cols[1].text.strip()
                 program = cols[0].text.strip()
+            
+            if not course_name == 'n/a':
+                course = Course(course_name, code, program)
+                terms[academic_term].append(course)
 
-            course = Course(course_name, code, program)
-            terms[academic_term].append(course)
+def get_courses(year):
+    url = calendar_url + "/?ActiveDate=9/1/" + year
+    
+    content = get_site_content(url)
+    rows = get_course_list(content)
+    get_courses_from_list(rows)
 
 def main():
-    table = get_course_table()
-    get_courses_from_table(table)
+    year = raw_input("Please select your starting year: ")
+
+    get_courses(year)
 
     term = raw_input("Please select a term: ")
 

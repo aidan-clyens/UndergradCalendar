@@ -1,0 +1,5 @@
+- add input for selecting a program
+- try making this a Flask app
+- write data to a file or database (e.g. JSON, csv, sqlite3)
+- scrape web data periodically as a background task and add to database
+- query database for data

@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<title>Courses</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<section class="content">
+    {% for t in terms.keys() %}
+        <table class="courses">
+            <tr><td class="term-name">{{ t }}</td></tr>
+            {% for c in terms[t] %}
+                <tr>
+                    <td><a href="{{ c.url }}" target="_blank">{{ c.code }}</a></td>
+                    <td>{{ c.name }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% endfor %}
+</section>

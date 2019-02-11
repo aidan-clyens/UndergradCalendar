@@ -1,10 +1,14 @@
 from flask import Flask, render_template, request
 from bs4 import BeautifulSoup
 import requests
+from datetime import datetime
 
 uwflow_url = "https://uwflow.com/"
 calendar_url = "https://ugradcalendar.uwaterloo.ca/"
 ece_page = "page/ENG-Computer-Engineering-Electrical-Engineering"
+
+min_year = 2012
+max_year = datetime.now().year
 
 class Course:
     name = ''
@@ -29,7 +33,8 @@ def index():
 
         terms = get_courses(year)
 
-        return render_template('courses.html', terms=terms)
+        if int(year) >= min_year and int(year) <= max_year:
+            return render_template('courses.html', terms=terms)
 
     return render_template('index.html')
 

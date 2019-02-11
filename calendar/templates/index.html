@@ -1,16 +1,19 @@
 <!DOCTYPE html>
 <title>Test</title>
 <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+    integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
 <section class="content">
     <h1>
         ECE Undergrad Calendar
     </h1>
 </section>
-<section>
+<section class="content">
     <div>
-        <form action="" method="POST">
-            <p>Year <input type="number" name="year"></p>
-            <p>Submit <input type="submit" name="submit"></p>
+        <p>Select a beginning year</p>
+        <form class="form-inline" action="" method="POST">
+            <p><input class="form-control" type="number" name="year" placeholder="Year"></p>
+            <p><input class="form-control" type="submit" name="submit"></p>
         </form>
     </div>
 </section>

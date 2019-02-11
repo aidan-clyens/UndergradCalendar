@@ -51,14 +51,14 @@ def get_course_list(soup):
 
 def get_courses_from_list(rows):
     terms = {
-    '1A' : [],
-    '1B' : [],
-    '2A' : [],
-    '2B' : [],
-    '3A' : [],
-    '3B' : [],
-    '4A' : [],
-    '4B' : []
+        '1A' : [],
+        '1B' : [],
+        '2A' : [],
+        '2B' : [],
+        '3A' : [],
+        '3B' : [],
+        '4A' : [],
+        '4B' : []
     }
 
     for [i, row] in enumerate(rows):
@@ -84,13 +84,21 @@ def get_courses_from_list(rows):
                     cls = float(cols[3].text.strip())
                     tut = float(cols[4].text.strip())
                     lab = float(cols[5].text.strip())
-    
-            course = Course(course_name, code)
-            course.program = program
-            course.cls = cls
-            course.tut = tut
-            course.lab = lab
-            terms[academic_term].append(course)
+
+            if not 'COOP' in course_name:
+                index = course_name.find('(')
+                if index > -1:
+                    course_name = course_name[:index]
+
+                if program == 'n/a':
+                    program = 'both'
+
+                course = Course(course_name, code)
+                course.program = program
+                course.cls = cls
+                course.tut = tut
+                course.lab = lab
+                terms[academic_term].append(course)
 
     return terms
 

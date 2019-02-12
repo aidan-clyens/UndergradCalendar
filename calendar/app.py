@@ -1,11 +1,17 @@
 from flask import Flask, render_template, request
 import web_scraper as ws
 from datetime import datetime
+import os
 
 min_year = 2012
 max_year = datetime.now().year
 
 app = Flask(__name__, static_folder='static', template_folder='templates')
+app.config.from_object(__name__)
+
+app.config.update(dict(
+    DATABASE=os.path.join(app.root_path, 'courses.db')
+))
 
 @app.route('/', methods=['GET','POST'])
 def index():

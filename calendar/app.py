@@ -11,6 +11,8 @@ min_year = 2012
 max_year = datetime.now().year
 
 class Course:
+    year = 0
+    term = ''
     name = ''
     code = ''
     program = ''
@@ -99,6 +101,8 @@ def get_courses_from_list(rows):
                     program = 'both'
 
                 course = Course(course_name, code)
+                course.year = year
+                course.term = academic_term
                 course.program = program
                 course.cls = cls
                 course.tut = tut
@@ -120,7 +124,7 @@ def get_courses(year):
     
     content = get_site_content(url)
     rows = get_course_list(content)
-    terms = get_courses_from_list(rows)
+    terms = get_courses_from_list(year, rows)
 
     add_course_urls(year, terms)
 

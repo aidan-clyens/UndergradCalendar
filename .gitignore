@@ -3,3 +3,5 @@ bin
 lib
 local
 include
+share
+calendar/web_scraper.pyc

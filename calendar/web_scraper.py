@@ -6,6 +6,8 @@ calendar_url = "https://ugradcalendar.uwaterloo.ca/"
 ece_page = "page/ENG-Computer-Engineering-Electrical-Engineering"
 
 class Course:
+    start_year = 0
+    term = ''
     name = ''
     code = ''
     program = ''
@@ -19,90 +21,93 @@ class Course:
         self.name = name
         self.code = code
 
-def get_site_content(url):
-    req = requests.get(url)
-    text = req.text.encode('utf-8')
+class WebScraper():
+    def get_site_content(self, url):
+        req = requests.get(url)
+        text = req.text.encode('utf-8')
 
-    soup = BeautifulSoup(text, 'html.parser')
+        soup = BeautifulSoup(text, 'html.parser')
 
-    return soup
+        return soup
 
-def get_course_list(soup):
-    main_content = soup.find('span', {'class':'MainContent'})
-    table = main_content.find('table')
+    def get_course_list(self, soup):
+        main_content = soup.find('span', {'class':'MainContent'})
+        table = main_content.find('table')
 
-    rows = table.find_all('tr')
+        rows = table.find_all('tr')
 
-    return rows
+        return rows
 
-def get_courses_from_list(rows):
-    terms = {
-        '1A' : [],
-        '1B' : [],
-        '2A' : [],
-        '2B' : [],
-        '3A' : [],
-        '3B' : [],
-        '4A' : [],
-        '4B' : []
-    }
+    def get_courses_from_list(self, year, rows):
+        terms = {
+            '1A' : [],
+            '1B' : [],
+            '2A' : [],
+            '2B' : [],
+            '3A' : [],
+            '3B' : [],
+            '4A' : [],
+            '4B' : []
+        }
 
-    for [i, row] in enumerate(rows):
-        cols = row.find_all('td')
+        for [i, row] in enumerate(rows):
+            cols = row.find_all('td')
 
-        if len(cols) > 3:
-            if 'Academic Term' in row.text:
-                course_name = cols[3].text.strip()
-                code = cols[2].text.strip()
-                program = cols[1].text.strip()
-                academic_term = cols[0].text.strip()[14:16]
-                
-                if len(cols) > 6:
-                    cls = float(cols[4].text.strip())
-                    tut = float(cols[5].text.strip())
-                    lab = float(cols[6].text.strip())
-            else:
-                course_name = cols[2].text.strip()
-                code = cols[1].text.strip()
-                program = cols[0].text.strip()
+            if len(cols) > 3:
+                if 'Academic Term' in row.text:
+                    course_name = cols[3].text.strip()
+                    code = cols[2].text.strip()
+                    program = cols[1].text.strip()
+                    academic_term = cols[0].text.strip()[14:16]
+                    
+                    if len(cols) > 6:
+                        cls = float(cols[4].text.strip())
+                        tut = float(cols[5].text.strip())
+                        lab = float(cols[6].text.strip())
+                else:
+                    course_name = cols[2].text.strip()
+                    code = cols[1].text.strip()
+                    program = cols[0].text.strip()
 
-                if len(cols) > 5:
-                    cls = float(cols[3].text.strip())
-                    tut = float(cols[4].text.strip())
-                    lab = float(cols[5].text.strip())
+                    if len(cols) > 5:
+                        cls = float(cols[3].text.strip())
+                        tut = float(cols[4].text.strip())
+                        lab = float(cols[5].text.strip())
 
-            if not 'COOP' in course_name:
-                index = course_name.find('(')
-                if index > -1:
-                    course_name = course_name[:index]
+                if not 'COOP' in course_name:
+                    index = course_name.find('(')
+                    if index > -1:
+                        course_name = course_name[:index]
 
-                if program == 'n/a':
-                    program = 'both'
+                    if program == 'n/a':
+                        program = 'both'
 
-                course = Course(course_name, code)
-                course.program = program
-                course.cls = cls
-                course.tut = tut
-                course.lab = lab
-                terms[academic_term].append(course)
+                    course = Course(course_name, code)
+                    course.start_year = year
+                    course.term = academic_term
+                    course.program = program
+                    course.cls = cls
+                    course.tut = tut
+                    course.lab = lab
+                    terms[academic_term].append(course)
 
-    return terms
+        return terms
 
-def add_course_urls(year, terms):
-    course_list_url = "http://www.ucalendar.uwaterloo.ca/" + (year[2:5] + str((int(year[2:5]) + 1))) + "/COURSE/course-ECE.html"
+    def add_course_urls(self, year, terms):
+        course_list_url = "http://www.ucalendar.uwaterloo.ca/" + (year[2:5] + str((int(year[2:5]) + 1))) + "/COURSE/course-ECE.html"
 
-    for term in terms.values():
-        for course in term:
-            course.url = course_list_url + "#" + course.code.replace(' ', '')
-            course.uwflow_url = uwflow_url + "course/" + course.code.replace(' ', '').lower()
+        for term in terms.values():
+            for course in term:
+                course.url = course_list_url + "#" + course.code.replace(' ', '')
+                course.uwflow_url = uwflow_url + "course/" + course.code.replace(' ', '').lower()
 
-def get_courses(year):
-    url = calendar_url + ece_page + "/?ActiveDate=9/1/" + year
-    
-    content = get_site_content(url)
-    rows = get_course_list(content)
-    terms = get_courses_from_list(rows)
+    def get_courses(self, year):
+        url = calendar_url + ece_page + "/?ActiveDate=9/1/" + year
+        
+        content = self.get_site_content(url)
+        rows = self.get_course_list(content)
+        terms = self.get_courses_from_list(year, rows)
 
-    add_course_urls(year, terms)
+        self.add_course_urls(year, terms)
 
-    return terms
+        return terms

@@ -1,7 +1,3 @@
+*.pyc
 .vscode
-bin
-lib
-local
-include
-share
-calendar/web_scraper.pyc
+venv

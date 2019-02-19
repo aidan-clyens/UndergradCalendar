@@ -1,6 +1,6 @@
 from app import app
 from flask import request, render_template
-from web_scraper import WebScraper
+from . import webscraper
 from datetime import datetime
 import os
 
@@ -12,7 +12,7 @@ def index():
     if request.method == 'POST':
         year = request.form['year']
 
-        ws = WebScraper()
+        ws = webscraper.WebScraper()
         terms = ws.get_courses(year)
 
         if int(year) >= min_year and int(year) <= max_year:

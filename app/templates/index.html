@@ -9,11 +9,17 @@
     </h1>
 </section>
 <section class="content">
-    <div>
-        <p>Select a beginning year</p>
-        <form class="form-inline" action="" method="POST">
-            <p><input class="form-control" type="number" name="year" placeholder="Year"></p>
+    <div class="year-input">
+        <form class="form-group" action="" method="POST">
+            <p><label for="sel1">Select a beginning year:</label>
+            <select class="form-control" name="year" id="sel1">
+                <option>2016</option>
+            </select></p>
             <p><input class="form-control" type="submit" name="submit"></p>
         </form>
+        <!--<form class="form-inline" action="" method="POST">
+            <p><input class="form-control" type="number" name="year" placeholder="Year"></p>
+            <p><input class="form-control" type="submit" name="submit"></p>
+        </form>-->
     </div>
 </section>

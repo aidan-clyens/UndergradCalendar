@@ -1,6 +1,7 @@
 from app import app
 from flask import request, render_template
 from . import webscraper
+from . import db
 from datetime import datetime
 import os
 
@@ -9,6 +10,8 @@ max_year = datetime.now().year
 
 @app.route('/', methods=['GET','POST'])
 def index():
+    db.init_db()
+    cur = db.get_db().cursor()
     if request.method == 'POST':
         year = request.form['year']
 

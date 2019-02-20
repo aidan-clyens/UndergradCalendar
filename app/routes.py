@@ -10,10 +10,14 @@ max_year = datetime.now().year
 
 @app.route('/', methods=['GET','POST'])
 def index():
-    db.init_db()
-    cur = db.get_db().cursor()
+    res = db.init_db()
+
     if request.method == 'POST':
         year = request.form['year']
+
+        select_sql = """SELECT * FROM courses WHERE start_year=%s""" % year
+        res = db.query_db(select_sql)
+        print(len(res))
 
         ws = webscraper.WebScraper()
         terms = ws.get_courses(year)

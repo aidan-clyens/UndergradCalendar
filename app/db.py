@@ -4,10 +4,20 @@ import sqlite3
 DATABASE = 'app/courses.db'
 
 def init_db():
-    db = get_db()
-    with open('app/schema.sql', 'r') as f:
-        db.cursor().executescript(f.read())
-    db.commit()
+    create_table_sql = """CREATE TABLE IF NOT EXISTS courses (
+        id INTEGER PRIMARY KEY,
+        start_year INTEGER,
+        term TEXT,
+        code TEXT,
+        name TEXT,
+        program TEXT,
+        url TEXT
+        )
+        """
+
+    res = query_db(create_table_sql)
+
+    return res
 
 def get_db():
     db = getattr(g, '_database', None)
@@ -25,5 +35,7 @@ def query_db(query, args=()):
     cur = get_db().execute(query, args)
     res = cur.fetchall()
     cur.close()
+
+    get_db().commit()
 
     return res

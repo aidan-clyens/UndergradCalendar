@@ -17,10 +17,6 @@ class Course:
     url = ''
     uwflow_url = ''
 
-    def __init__(self, name, code):
-        self.name = name
-        self.code = code
-
 class WebScraper():
     def get_site_content(self, url):
         req = requests.get(url)
@@ -50,6 +46,7 @@ class WebScraper():
             '4B' : []
         }
 
+        previous_academic_term = ""
         for [i, row] in enumerate(rows):
             cols = row.find_all('td')
 
@@ -82,7 +79,9 @@ class WebScraper():
                     if program == 'n/a':
                         program = 'both'
 
-                    course = Course(course_name, code)
+                    course = Course()
+                    course.name = course_name
+                    course.code = code
                     course.start_year = year
                     course.term = academic_term
                     course.program = program
@@ -90,6 +89,22 @@ class WebScraper():
                     course.tut = tut
                     course.lab = lab
                     terms[academic_term].append(course)
+                
+                previous_academic_term = academic_term
+            
+            elif len(cols) == 2:
+                if not "Professional Development Elective" in cols[1].text.strip():
+                    course = Course()
+                    course.program = cols[0].text.strip()
+                    if course.program == 'n/a':
+                        course.program = 'both'
+                    course.name = cols[1].text.strip()
+                    index = course.name.find('(')
+                    if index > -1:
+                        course.name = course.name[:index]
+                    course.start_year = year
+                    course.term = previous_academic_term
+                    terms[previous_academic_term].append(course)
 
         return terms
 

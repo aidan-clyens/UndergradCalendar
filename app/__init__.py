@@ -7,3 +7,5 @@ app.config.from_mapping(
 
 from app import routes
 from app import db
+
+db.init_app(app)

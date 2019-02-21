@@ -2,6 +2,9 @@ from flask import current_app, g
 from . import webscraper as ws
 import sqlite3
 
+def init_app(app):
+    app.teardown_appcontext(close_db)
+
 def init_db():
     create_table_sql = """CREATE TABLE IF NOT EXISTS courses (
         id INTEGER PRIMARY KEY,
@@ -19,14 +22,13 @@ def init_db():
     return res
 
 def get_db():
-    db = getattr(g, '_database', None)
-    if db is None:
-        db = g._database = sqlite3.connect(current_app.config['DATABASE'])
-        db.row_factory = sqlite3.Row
-    return db
+    if 'db' not in g:
+        g.db = sqlite3.connect(current_app.config['DATABASE'])
+        g.db.row_factory = sqlite3.Row
+    return g.db
 
-def close_connection(exception):
-    db = getattr(g, '_database', None)
+def close_db(exception):
+    db = g.pop('db', None)
     if db is not None:
         db.close()
 

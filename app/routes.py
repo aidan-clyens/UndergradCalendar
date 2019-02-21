@@ -17,10 +17,11 @@ def index():
 
         select_sql = """SELECT * FROM courses WHERE start_year=%s""" % year
         res = db.query_db(select_sql)
-        print(len(res))
-
-        ws = webscraper.WebScraper()
-        terms = ws.get_courses(year)
+        if len(res) > 0:
+            terms = db.get_courses_from_db(year)
+        else:
+            ws = webscraper.WebScraper()
+            terms = ws.get_courses(year)
 
         if int(year) >= min_year and int(year) <= max_year:
             return render_template('courses.html', terms=terms)

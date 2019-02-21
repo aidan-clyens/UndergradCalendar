@@ -1,4 +1,5 @@
 from flask import g
+from . import webscraper as ws
 import sqlite3
 
 DATABASE = 'app/courses.db'
@@ -37,5 +38,35 @@ def query_db(query, args=()):
     cur.close()
 
     get_db().commit()
-
     return res
+
+def get_courses_from_db(year):
+    terms = {
+        '1A' : [],
+        '1B' : [],
+        '2A' : [],
+        '2B' : [],
+        '3A' : [],
+        '3B' : [],
+        '4A' : [],
+        '4B' : []
+    }
+
+    select_term_sql = """SELECT * FROM courses WHERE start_year='%s' AND term=""" % str(year)
+
+    for t in terms.keys():
+        query = select_term_sql + "'" + t + "'"
+
+        res = query_db(query)
+        for r in res:
+            course = ws.Course()
+            course.start_year = year
+            course.term = t
+            course.code = r[3]
+            course.name = r[4]
+            course.program = r[5]
+            course.url = r[6]
+            
+            terms[t].append(course)
+
+    return terms

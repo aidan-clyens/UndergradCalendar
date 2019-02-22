@@ -1,34 +1,39 @@
 <!DOCTYPE html>
-<title>Courses</title>
-<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
-    integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
-<section class="content">
-    <table class="table">
-        <thead>
-            <tr>
-                <th class="course-code">Code</th>
-                <th class="course-name">Name</th>
-                <th>Program</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for t in terms.keys() %}
-                <table class="table table-striped">
-                    <thead class="thead-dark">
-                        <th>{{ t }}</th><th></th><th></th>
-                    </thead>
-                    <tbody>
-                        {% for c in terms[t] %}
-                            <tr>
-                                <td class="course-code"><a href="{{ c.url }}" target="_blank">{{ c.code }}</a></td>
-                                <td class="course-name">{{ c.name }}</td>
-                                <td>{{ c.program }}</td>
-                            </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            {% endfor %}
-        </tbody>
-    </table>
-</section>
+<head>
+    <title>Courses</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+        integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+</head>
+
+<body>
+    <section class="content">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th class="course-code">Code</th>
+                    <th class="course-name">Name</th>
+                    <th>Program</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for t in terms.keys() %}
+                    <table class="table table-striped">
+                        <thead class="thead-dark">
+                            <th>{{ t }}</th><th></th><th></th>
+                        </thead>
+                        <tbody>
+                            {% for c in terms[t] %}
+                                <tr>
+                                    <td class="course-code"><a href="{{ c.url }}" target="_blank">{{ c.code }}</a></td>
+                                    <td class="course-name">{{ c.name }}</td>
+                                    <td>{{ c.program }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% endfor %}
+            </tbody>
+        </table>
+    </section>
+</body>

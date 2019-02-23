@@ -1,19 +1,28 @@
 <!DOCTYPE html>
-<title>ECE Calendar</title>
-<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+<head>
+    <title>ECE Calendar</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
     integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
-<section class="content">
-    <h1>
-        ECE Undergrad Calendar
-    </h1>
-</section>
-<section class="content">
-    <div>
-        <p>Select a beginning year</p>
-        <form class="form-inline" action="" method="POST">
-            <p><input class="form-control" type="number" name="year" placeholder="Year"></p>
-            <p><input class="form-control" type="submit" name="submit"></p>
-        </form>
-    </div>
-</section>
+</head>
+
+<body>
+    <section class="content">
+        <h1>
+            ECE Undergrad Calendar
+        </h1>
+    </section>
+    <section class="content">
+        <div class="year-input">
+            <form class="form-group" action="" method="POST">
+                <p><label for="sel1">Select a beginning year:</label>
+                <select class="form-control" name="year" id="sel1">
+                    <option>2016</option>
+                    <option>2017</option>
+                    <option>2018</option>
+                </select></p>
+                <p><input class="form-control" type="submit" name="submit"></p>
+            </form>
+        </div>
+    </section>
+</body>

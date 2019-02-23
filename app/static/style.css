@@ -5,6 +5,10 @@
     font-family: 'RobotoDraft', 'Roboto', 'Helvetica Neue, Helvetica, Arial', sans-serif;
 }
 
+body {
+    background-color: #191919;
+}
+
 .content {
     margin: 0 auto;
     width: 75%;
@@ -12,6 +16,10 @@
 
 td {
     padding: 5px;
+}
+
+tr {
+    color: #dbdbdb;
 }
 
 .term-name {
@@ -28,4 +36,9 @@ td {
 
 .year-input {
     width: 40%;
+}
+
+.term-header {
+    background-color: #b7b7b7;
+    color: #1c1c1c;
 }

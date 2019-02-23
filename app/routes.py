@@ -5,9 +5,10 @@ from . import db
 from datetime import datetime
 import os
 
-year = "2016"
+min_year = 2012
+max_year = datetime.now().year
 
-@app.route('/')
+@app.route('/', methods=['GET','POST'])
 def index():
 
     res = db.init_db()

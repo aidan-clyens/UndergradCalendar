@@ -1,4 +1,3 @@
-from . import db
 from bs4 import BeautifulSoup
 import requests
 
@@ -116,9 +115,6 @@ class WebScraper():
             for course in term:
                 course.url = course_list_url + "#" + course.code.replace(' ', '')
                 course.uwflow_url = uwflow_url + "course/" + course.code.replace(' ', '').lower()
-
-                add_course_sql = """INSERT INTO courses (start_year, term, code, name, program, url) VALUES (?,?,?,?,?,?)"""
-                db.query_db(add_course_sql, (course.start_year, course.term, course.code, course.name, course.program, course.url))
 
     def get_courses(self, year):
         url = calendar_url + ece_page + "/?ActiveDate=9/1/" + year

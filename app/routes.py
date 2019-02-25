@@ -12,10 +12,10 @@ def index():
     if request.method == 'POST':
         year = request.form['year']
 
-        ws = webscraper.WebScraper()
-        terms = ws.get_courses(year)
-
         if int(year) >= min_year and int(year) <= max_year:
+            ws = webscraper.WebScraper()
+            terms = ws.get_courses(year)
+
             return render_template('courses.html', terms=terms)
 
     return render_template('index.html')

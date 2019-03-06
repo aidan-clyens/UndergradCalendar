@@ -16,6 +16,6 @@ def index():
             ws = webscraper.WebScraper()
             terms = ws.get_courses(year)
 
-            return render_template('courses.html', terms=terms)
+            return render_template('courses.html', terms=terms, url=ws.url)
 
     return render_template('index.html')

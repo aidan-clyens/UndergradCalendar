@@ -117,9 +117,9 @@ class WebScraper():
                 course.uwflow_url = uwflow_url + "course/" + course.code.replace(' ', '').lower()
 
     def get_courses(self, year):
-        url = calendar_url + ece_page + "/?ActiveDate=9/1/" + year
+        self.url = calendar_url + ece_page + "/?ActiveDate=9/1/" + year
         
-        content = self.get_site_content(url)
+        content = self.get_site_content(self.url)
         rows = self.get_course_list(content)
         terms = self.get_courses_from_list(year, rows)
 

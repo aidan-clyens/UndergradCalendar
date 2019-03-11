@@ -26,7 +26,11 @@
             <tbody>
                 {% for t in terms.keys() %}
                     <table class="table table-striped">
+                        {% if dark_theme  %}
+                        <thead>
+                        {% else  %}
                         <thead class="thead-dark">
+                        {% endif  %}
                             <tr class="term-header">
                                 <th>{{ t }}</th><th></th><th></th>
                             </tr>

@@ -6,7 +6,8 @@
 }
 
 body {
-    background-color: white;
+    background-color: #191919;
+    color: white;
 }
 
 .content {
@@ -16,6 +17,10 @@ body {
 
 td {
     padding: 5px;
+}
+
+tr {
+    color: #dbdbdb;
 }
 
 .term-name {
@@ -35,5 +40,6 @@ td {
 }
 
 .term-header {
-    background-color: #828282;
+    background-color: #b7b7b7;
+    color: #1c1c1c;
 }

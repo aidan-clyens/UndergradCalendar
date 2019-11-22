@@ -42,7 +42,7 @@ td {
     background-color: #828282;
 }
 
-@media only screen and (max-width: 800px) {
+@media only screen and (max-width: 1024px) {
     * {
         font-size: 22px;
         font-family: 'RobotoDraft', 'Roboto', 'Helvetica Neue, Helvetica, Arial', sans-serif;

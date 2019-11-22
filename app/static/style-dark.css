@@ -39,7 +39,39 @@ tr {
     width: 40%;
 }
 
+.dark-theme-btn {
+    float: right;
+}
+
 .term-header {
     background-color: #b7b7b7;
     color: #1c1c1c;
+}
+
+@media only screen and (max-width: 800px) {
+    * {
+        font-size: 22px;
+        font-family: 'RobotoDraft', 'Roboto', 'Helvetica Neue, Helvetica, Arial', sans-serif;
+    }
+
+    .content {
+        width: 90%;
+    }
+
+    .course-code {
+        width: 15%;
+    }
+
+    .course-name {
+        width: 80%;
+    }
+
+    .year-input {
+        width: 100%;
+    }
+
+    .dark-theme-btn {
+        float: left;
+        padding-bottom: 10%;
+    }
 }
